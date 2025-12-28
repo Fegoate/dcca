@@ -11,9 +11,12 @@ public class DataReader {
     public List<RCSData> readAllData() {
         List<RCSData> allData = new ArrayList<>();
 
+        File dataRoot = locateDataRoot();
+        System.out.println("使用数据目录: " + dataRoot.getPath());
+
         // 遍历方向文件夹（方向1到方向8）
         for (int direction = 1; direction <= 8; direction++) {
-            String directionPath = DATA_DIRECTORY + File.separator + "方向" + direction;
+            String directionPath = dataRoot.getPath() + File.separator + "方向" + direction;
             File directionDir = new File(directionPath);
 
             if (directionDir.exists() && directionDir.isDirectory()) {
@@ -42,6 +45,24 @@ public class DataReader {
 
         System.out.println("总共读取 " + allData.size() + " 个数据点");
         return allData;
+    }
+
+    private File locateDataRoot() {
+        File directRoot = new File(DATA_DIRECTORY);
+        File directDirection = new File(directRoot, "方向1");
+
+        if (directDirection.isDirectory()) {
+            return directRoot;
+        }
+
+        File nestedRoot = new File(directRoot, DATA_DIRECTORY);
+        File nestedDirection = new File(nestedRoot, "方向1");
+
+        if (nestedDirection.isDirectory()) {
+            return nestedRoot;
+        }
+
+        throw new IllegalStateException("未找到包含方向数据的目录: " + directRoot.getAbsolutePath());
     }
 
     private List<RCSData> readFile(File file, double frequency, double incidentDirection) {
