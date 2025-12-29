@@ -35,7 +35,9 @@ public class RCSData {
 
     @Override
     public String toString() {
-        return String.format("RCSData{frequency=%.1f MHz, incidentDirection=%.1f°, theta=%.1f°, phi=%.1f°, rcsValue=%.2f dB(m²)}",
-                frequency, incidentDirection, theta, phi, rcsValue);
+        return String.format(
+                "RCSData{frequency=%.1f MHz, incidentDirection=%.1f°, theta=%.1f°, phi=%.1f°, rcsValue=%.2f dB(m²)}",
+                frequency, incidentDirection, theta, phi, rcsValue
+        );
     }
 }
